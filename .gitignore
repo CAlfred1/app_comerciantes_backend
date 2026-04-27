@@ -1,67 +1,33 @@
-# ==========================================
-# Spring Boot - .gitignore Profesional
-# ==========================================
-
-# Maven
-/target
+HELP.md
+target/
 .mvn/wrapper/maven-wrapper.jar
-
-# Permitir target dentro de src (casos especiales)
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-# Gradle / NetBeans
-/build
-/dist
-/nbdist
-/.nb-gradle
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-# Logs
-*.log
-logs/
-
-# Archivos compilados Java
-*.class
-
-# Archivos empaquetados
-*.jar
-*.war
-*.ear
-
-# Mantener Maven Wrapper
-!mvnw
-!mvnw.cmd
-
-# Spring Tools Suite (STS)
-/.apt_generated
-/.classpath
-/.factorypath
-/.project
-/.settings
-/.springBeans
-/.sts4-cache
-
-# IntelliJ IDEA
-/.idea
+### IntelliJ IDEA ###
+.idea
 *.iws
 *.iml
 *.ipr
 
-# NetBeans
+### NetBeans ###
 /nbproject/private/
-/nbbuild
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-# Visual Studio Code
-/.vscode
-
-# Sistema Operativo
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Archivos temporales
-*.tmp
-*.temp
+### VS Code ###
+.vscode/
