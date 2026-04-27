@@ -10,6 +10,8 @@ import proyecto.asociacion.comerciantes.mappers.SocioMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -26,46 +28,53 @@ public class SocioService implements ISocioService {
 
     @Override
     public SocioResponseDto findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("El id es obligatorio");
+        }
         return repository.findById(id)
                 .map(SocioMapper::toSocioResponseDto)
-                .orElse(null);
+                .orElseThrow(() -> new NoSuchElementException("No se encontro el socio"));
     }
 
     @Override
     public SocioResponseDto save(SocioRequestDto dto) {
-        if(dto!=null){
-            Socio socio = SocioMapper.toSocio(dto);
-            return SocioMapper.toSocioResponseDto(repository.save(socio));
+        if(dto==null){
+            throw new IllegalArgumentException("El socio es obligatorio");
+
         }
-        return null;
+        Socio socio = SocioMapper.toSocio(dto);
+        return SocioMapper.toSocioResponseDto(repository.save(socio));
     }
 
     @Override
     public SocioResponseDto update(SocioRequestDto requestDto, Long id) {
         if (requestDto == null || id == null) {
-            return null;
+            throw new IllegalArgumentException("Datos de actualizacion incompletos");
         }
+        Socio socioExiste = repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("No se encontro el socio"));
 
-        return repository.findById(id)
-                .map(socioExistente -> {
-                    Socio socioActualizado = SocioMapper.toSocio(requestDto);
-                    socioActualizado.setId(socioExistente.getId());
-                    return SocioMapper.toSocioResponseDto(repository.save(socioActualizado));
-                })
-                .orElse(null);
+        if(!socioExiste.isEstado()){
+            throw new IllegalStateException("Socio no existente");
+        }
+           Socio socioActualizado = SocioMapper.toSocio(requestDto);
+           socioActualizado.setId(socioExiste.getId());
+
+           return SocioMapper.toSocioResponseDto(repository.save(socioActualizado));
     }
 
     @Override
     public SocioResponseDto deleteById(Long id) {
         if (id == null) {
-            return null;
+            throw new IllegalArgumentException("El id es obligatorio");
         }
-        return repository.findById(id)
-                .map(socio -> {
-                    SocioResponseDto response = SocioMapper.toSocioResponseDto(socio);
-                    repository.deleteById(id);
-                    return response;
-                })
-                .orElse(null);
+        Socio socioExiste = repository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el socio"));
+        if(socioExiste.isEstado()){
+            throw new IllegalStateException("Socio no existente");
+        }
+        SocioResponseDto response = SocioMapper.toSocioResponseDto(socioExiste);
+        repository.deleteById(id);
+        return response;
+
     }
 }
