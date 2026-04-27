@@ -8,7 +8,7 @@ import proyecto.asociacion.comerciantes.service.ComprobanteService;
 import proyecto.asociacion.comerciantes.service.PagoService;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/pago")
 public class PagoController {
