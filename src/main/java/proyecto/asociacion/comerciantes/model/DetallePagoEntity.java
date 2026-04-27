@@ -19,7 +19,8 @@ public class DetallePagoEntity {
     @Column(name = "id_detalle_pago")
     private Long id;
 
-    @OneToOne
+    //@OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_comprobante")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private ComprobanteEntity comprobante;
