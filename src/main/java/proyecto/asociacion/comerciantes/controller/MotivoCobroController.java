@@ -8,6 +8,7 @@ import proyecto.asociacion.comerciantes.service.MotivoCobroService;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/motivo-cobro")
 public class MotivoCobroController {
@@ -21,6 +22,15 @@ public class MotivoCobroController {
     @GetMapping("/listar")
     public ResponseEntity<List<MotivoCobroDto>> listar() {
         return ResponseEntity.ok(motivoCobroService.listar());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MotivoCobroDto> obtenerPorId(
+            @PathVariable Integer id) {
+
+        return ResponseEntity.ok(
+                motivoCobroService.obtenerPorId(id)
+        );
     }
 
     @PostMapping("/registrar")

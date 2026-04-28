@@ -7,6 +7,7 @@ import proyecto.asociacion.comerciantes.dto.RegistrarUsuarioDto;
 import proyecto.asociacion.comerciantes.model.UsuarioEntity;
 import proyecto.asociacion.comerciantes.service.AuthService;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

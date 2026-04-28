@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 
 import java.time.LocalDate;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/reporte")
 public class ReporteCajaController {

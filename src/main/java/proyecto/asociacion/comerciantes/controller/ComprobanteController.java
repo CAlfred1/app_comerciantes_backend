@@ -6,6 +6,7 @@ import proyecto.asociacion.comerciantes.service.ComprobanteService;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/comprobante")
 public class ComprobanteController {

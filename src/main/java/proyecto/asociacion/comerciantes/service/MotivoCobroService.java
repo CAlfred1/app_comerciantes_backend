@@ -25,6 +25,15 @@ public class MotivoCobroService {
         return motivoCobroMapper.toDtoList(listaEntity);
     }
 
+    public MotivoCobroDto obtenerPorId(Integer id) {
+
+        MotivoCobroEntity entity = motivoCobroRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Motivo de cobro no encontrado"));
+
+        return motivoCobroMapper.toDto(entity);
+    }
+
     public MotivoCobroDto registrar(MotivoCobroDto motivoCobroDto) {
         MotivoCobroEntity entity = motivoCobroMapper.toEntity(motivoCobroDto);
 
