@@ -3,6 +3,7 @@ package proyecto.asociacion.comerciantes.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import proyecto.asociacion.comerciantes.model.EstadoPago;
 import proyecto.asociacion.comerciantes.model.MetodoPago;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ public class PagoDto {
     private MetodoPago metodo;
     private BigDecimal montoAcumulado;
     private LocalDateTime fechaRegistro;
+    private EstadoPago estado;
 
     private List<DetallePagoDto> detalles ;
 

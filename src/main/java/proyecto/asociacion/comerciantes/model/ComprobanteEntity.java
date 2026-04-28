@@ -36,6 +36,10 @@ public class ComprobanteEntity {
     @Column(name = "vuelto")
     private BigDecimal vuelto;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado")
+    private EstadoComprobante estado;
+
     @OneToMany(mappedBy = "comprobante", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DetalleComprobanteEntity> detalles = new ArrayList<>();
 
@@ -104,8 +108,15 @@ public class ComprobanteEntity {
         this.vuelto = vuelto;
     }
 
+    public EstadoComprobante getEstado() {
+        return estado;
+    }
 
-    public ComprobanteEntity(Long id, String numero, String tipo, Long idPuesto, Long idUsuario, LocalDateTime fecha, BigDecimal total, BigDecimal vuelto) {
+    public void setEstado(EstadoComprobante estado) {
+        this.estado = estado;
+    }
+
+    public ComprobanteEntity(Long id, String numero, String tipo, Long idPuesto, Long idUsuario, LocalDateTime fecha, BigDecimal total, BigDecimal vuelto, EstadoComprobante estado) {
         this.id = id;
         this.numero = numero;
         this.tipo = tipo;
@@ -114,6 +125,7 @@ public class ComprobanteEntity {
         this.fecha = fecha;
         this.total = total;
         this.vuelto = vuelto;
+        this.estado = estado;
     }
 
     public ComprobanteEntity() {

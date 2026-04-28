@@ -3,6 +3,7 @@ package proyecto.asociacion.comerciantes.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import proyecto.asociacion.comerciantes.model.EstadoComprobante;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -29,6 +30,8 @@ public class ComprobanteDto {
     private BigDecimal total;
 
     private BigDecimal vuelto;
+
+    private EstadoComprobante estado;
 
     private List<DetalleComprobanteDto> listaDetalle;
 }

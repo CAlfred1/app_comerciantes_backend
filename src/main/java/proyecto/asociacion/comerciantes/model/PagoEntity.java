@@ -31,6 +31,10 @@ public class PagoEntity {
     @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado")
+    private EstadoPago estado;
+
     @OneToMany(mappedBy = "pago", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DetallePagoEntity> detalles = new ArrayList<>();
 
