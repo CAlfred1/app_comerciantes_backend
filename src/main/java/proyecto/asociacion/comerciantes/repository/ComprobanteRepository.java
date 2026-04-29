@@ -11,8 +11,12 @@ import java.util.List;
 
 public interface ComprobanteRepository extends JpaRepository<ComprobanteEntity, Long> {
 
+    boolean existsByNumero(String numero);
+
     @Query("SELECT c FROM ComprobanteEntity c " +
             "WHERE c.fecha >= :inicio AND c.fecha < :fin")
-    List<ComprobanteEntity> findByRangoFecha(@Param("inicio") LocalDateTime inicio,
-                                             @Param("fin") LocalDateTime fin);
+    List<ComprobanteEntity> findByRangoFecha(
+            @Param("inicio") LocalDateTime inicio,
+            @Param("fin") LocalDateTime fin
+    );
 }

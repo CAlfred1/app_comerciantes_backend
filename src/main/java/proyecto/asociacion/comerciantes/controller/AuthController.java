@@ -2,10 +2,13 @@ package proyecto.asociacion.comerciantes.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import proyecto.asociacion.comerciantes.dto.ActualizarUsuarioDto;
 import proyecto.asociacion.comerciantes.dto.RegistrarUsuarioConRolDto;
 import proyecto.asociacion.comerciantes.dto.RegistrarUsuarioDto;
 import proyecto.asociacion.comerciantes.model.UsuarioEntity;
 import proyecto.asociacion.comerciantes.service.AuthService;
+
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -24,12 +27,29 @@ public class AuthController {
         return ResponseEntity.ok(authService.registrar(dto));
     }
 
+    // ACTUALIZAR USUARIO
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<UsuarioEntity> actualizar(
+            @PathVariable Integer id,
+            @RequestBody ActualizarUsuarioDto dto) {
+
+        return ResponseEntity.ok(
+                authService.actualizar(id, dto)
+        );
+    }
+
     // LOGIN
     @PostMapping("/login")
     public ResponseEntity<UsuarioEntity> login(@RequestBody RegistrarUsuarioDto dto) {
         return ResponseEntity.ok(
                 authService.login(dto.getUsername(), dto.getPassword())
         );
+    }
+
+    // LISTAR
+    @GetMapping("/listar")
+    public ResponseEntity<List<UsuarioEntity>> listar() {
+        return ResponseEntity.ok(authService.listar());
     }
 
     // ASIGNAR ROL

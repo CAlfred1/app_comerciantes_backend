@@ -47,20 +47,32 @@ public class SocioService implements ISocioService {
     }
 
     @Override
-    public SocioResponseDto update(SocioRequestDto requestDto, Long id) {
+    public SocioResponseDto update(
+            SocioRequestDto requestDto,
+            Long id) {
+
         if (requestDto == null || id == null) {
-            throw new IllegalArgumentException("Datos de actualizacion incompletos");
+            throw new IllegalArgumentException(
+                    "Datos de actualizacion incompletos"
+            );
         }
+
         Socio socioExiste = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("No se encontro el socio"));
+                .orElseThrow(() ->
+                        new NoSuchElementException(
+                                "No se encontro el socio"
+                        )
+                );
 
-        if(!socioExiste.isEstado()){
-            throw new IllegalStateException("Socio no existente");
-        }
-           Socio socioActualizado = SocioMapper.toSocio(requestDto);
-           socioActualizado.setId(socioExiste.getId());
+        socioExiste.setNombre(requestDto.getNombre());
+        socioExiste.setDni(requestDto.getDni());
+        socioExiste.setTelefono(requestDto.getTelefono());
 
-           return SocioMapper.toSocioResponseDto(repository.save(socioActualizado));
+       //
+
+        return SocioMapper.toSocioResponseDto(
+                repository.save(socioExiste)
+        );
     }
 
     @Override

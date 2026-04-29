@@ -3,12 +3,14 @@ package proyecto.asociacion.comerciantes.service;
 import org.springframework.stereotype.Service;
 import proyecto.asociacion.comerciantes.dto.RegistrarUsuarioConRolDto;
 import proyecto.asociacion.comerciantes.dto.RegistrarUsuarioDto;
+import proyecto.asociacion.comerciantes.dto.ActualizarUsuarioDto;
 import proyecto.asociacion.comerciantes.model.RolEntity;
 import proyecto.asociacion.comerciantes.model.UsuarioEntity;
 import proyecto.asociacion.comerciantes.repository.UsuarioRepository;
 import proyecto.asociacion.comerciantes.repository.RolRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AuthService {
@@ -32,11 +34,47 @@ public class AuthService {
         return usuarioRepository.save(usuario);
     }
 
+    // LISTAR USUARIOS
+    public List<UsuarioEntity> listar() {
+        return usuarioRepository.findAll();
+    }
+
+    // ACTUALIZAR USUARIO
+    public UsuarioEntity actualizar(
+            Integer id,
+            ActualizarUsuarioDto dto) {
+
+        UsuarioEntity usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no existe"));
+
+        usuario.setUsername(dto.getUsername());
+
+        if (dto.getPassword() != null &&
+                !dto.getPassword().isBlank()) {
+
+            usuario.setPassword(dto.getPassword());
+        }
+
+        RolEntity rol = rolRepository.findById(dto.getIdRol())
+                .orElseThrow(() -> new RuntimeException("Rol no existe"));
+
+        usuario.setRoles(new ArrayList<>());
+        usuario.getRoles().add(rol);
+
+        usuario.setEstado(dto.getEstado());
+
+        return usuarioRepository.save(usuario);
+    }
+
     // LOGIN
     public UsuarioEntity login(String username, String password) {
 
         UsuarioEntity usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (!usuario.getEstado()) {
+            throw new RuntimeException("Usuario inactivo");
+        }
 
         if (!usuario.getPassword().equals(password)) {
             throw new RuntimeException("Password incorrecto");

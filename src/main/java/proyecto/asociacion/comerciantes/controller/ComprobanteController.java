@@ -20,22 +20,51 @@ public class ComprobanteController {
         this.comprobanteService =
                 comprobanteServiceSpring;
     }
-
+    // LISTAR
     @GetMapping("/listar")
     public ResponseEntity<List<ComprobanteDto>> listar() {
         return ResponseEntity.ok(
                 comprobanteService.listar()
         );
     }
-
+    // REGISTRAR
     @PostMapping("/registrar")
-    public ResponseEntity<ComprobanteDto> registrar(
+    public ResponseEntity<?> registrar(
             @RequestBody ComprobanteDto comprobanteDto) {
 
+        try {
+
+            ComprobanteDto dto =
+                    comprobanteService.registrar(comprobanteDto);
+
+            return ResponseEntity.ok(dto);
+
+        } catch (RuntimeException ex) {
+
+            return ResponseEntity
+                    .status(409)
+                    .body(ex.getMessage());
+        }
+    }
+
+    // ENCONTRAR
+    @GetMapping("/{id}")
+    public ResponseEntity<ComprobanteDto> obtenerPorId(
+            @PathVariable Long id) {
+
         return ResponseEntity.ok(
-                comprobanteService.registrar(
-                        comprobanteDto
-                )
+                comprobanteService.obtenerPorId(id)
+        );
+    }
+
+    // EDITAR
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<ComprobanteDto> actualizar(
+            @PathVariable Long id,
+            @RequestBody ComprobanteDto dto) {
+
+        return ResponseEntity.ok(
+                comprobanteService.actualizar(id, dto)
         );
     }
 }

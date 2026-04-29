@@ -56,6 +56,19 @@ public class HandlerExceptionController {
         return buildErrorResponse(HttpStatus.CONFLICT, "Conflicto de datos", request, null);
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, Object>> handleRuntime(
+            RuntimeException ex,
+            HttpServletRequest request) {
+
+        return buildErrorResponse(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage(),
+                request,
+                null
+        );
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleUnexpected(Exception ex, HttpServletRequest request) {
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Ocurrio un error interno", request, null);

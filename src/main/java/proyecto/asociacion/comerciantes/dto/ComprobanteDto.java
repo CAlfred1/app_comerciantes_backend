@@ -31,4 +31,6 @@ public class ComprobanteDto {
     private BigDecimal vuelto;
 
     private List<DetalleComprobanteDto> listaDetalle;
+
+
 }
