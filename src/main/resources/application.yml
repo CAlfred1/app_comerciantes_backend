@@ -1,22 +1,38 @@
 server:
-  port: 9090
+  port: 9090   # segunda instancia: --server.port=9091
 
 spring:
   application:
-    name: comerciantes
+    # Nombre con el que el servicio se registra en Eureka.
+    # El Gateway y el reporte-service lo buscan por este nombre (lb://comerciantes-service).
+    name: comerciantes-service
 
   datasource:
     url: jdbc:mysql://localhost:3306/mercado_db
     username: root
-    password:
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     show-sql: true
 
     hibernate:
-      ddl-auto: update
+      ddl-auto: none   # el esquema lo define db/mercado_db.sql
 
     properties:
       hibernate:
         format_sql: true
+
+# ===== Spring Cloud: registro en Eureka =====
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    hostname: localhost
+    # Cada instancia aparece con su puerto en el panel de Eureka (comerciantes-service:9090, :9091)
+    instance-id: ${spring.application.name}:${server.port}
+    # Latidos cortos para que, en la demo, una instancia apagada salga del registro en segundos
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
